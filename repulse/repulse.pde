@@ -1,15 +1,16 @@
 ArrayList<movBall> bl;
-int initNum=1000;
-float sz=20;//75
+int initNum=1500;
+float sz=5;//75
 float chue = 45.0;
-boolean changeColor = false;
+float initAlp = 45;
+boolean changeColor = true;
 float colHue = 0;
-float colAlp =3; 
+float colAlp =3;
 float alphaDec = 0.01;
 PVector cnt;
-float vcoef =2.5;  
+float vcoef =2.5;
 float dcoef = 0.02;
-float fric = .998;
+float fric = .997;
 float upLimit = 250.0;
 boolean doEvent = false;
 float eventRate = 0.01/60.0;
@@ -39,6 +40,11 @@ void setup() {
     b.pos.mult(256.0);
     b.pos.x += width/2.0;
     b.pos.y += height/2.0;
+    if ( (initNum-i)<10 ) {
+      b.col = color(0, 0, 100, 100);
+    } else {
+      b.col = color(chue, 100, 100, initAlp);
+    }
   }
 }
 
@@ -92,7 +98,7 @@ void draw() {
 }
 class movBall {
   PVector pos, vec, acc, vsum, tmp, dif;
-  float icoef, dv, alp=70;
+  float icoef, dv, alp=initAlp;
   boolean inEvent;
   color col;
   movBall() {
@@ -110,7 +116,8 @@ class movBall {
 
   void draw() {
     newFrame();
-    fill( color(chue, 100, 100, alp));
+    //fill( color(chue, 100, 100, alp));
+    fill( col );
     noStroke();
     ellipse( pos.x, pos.y, sz, sz);
     if ( alp > colAlp ) {
@@ -146,14 +153,14 @@ class movBall {
     //if ( !inEvent ) {
     //  if ( vec.mag()<(1/(1.0*initNum)) && doEvent && random(0, 1)<eventRate ) {
     //    float rlt = random(0, 1);
-    //    if ( rlt < 0.7 ) { 
+    //    if ( rlt < 0.7 ) {
     //      icoef=100.0;
-    //    } else if (rlt<.9) { 
+    //    } else if (rlt<.9) {
     //      icoef = 150.0;
-    //    } else if ( rlt<.99) { 
+    //    } else if ( rlt<.99) {
     //      icoef = 200.0;
     //    } else {
-    //      icoef=2000.0; 
+    //      icoef=2000.0;
     //      inEvent=true;
     //    }
     //  } else {
@@ -173,9 +180,15 @@ void mousePressed() {
 
 
 void keyPressed() {
-  for ( int i=0; i<bl.size(); i++ ) {
-    movBall b = bl.get(i);
-    b.pos.x = random( 0, width);
-    b.pos.y = random( 0, height);
+  if ( key == 'p' || key=='d' ) {
+    if( key=='p'){ fric+=.005;}
+    if( key=='d'){ fric-=.005;}
+    println( fric );
+  } else {
+    for ( int i=0; i<bl.size(); i++ ) {
+      movBall b = bl.get(i);
+      b.pos.x = random( 0, width);
+      b.pos.y = random( 0, height);
+    }
   }
 }
