@@ -1,15 +1,15 @@
 ArrayList<movBall> bl;
-int initNum=3;
-float sz=180;//75
+int initNum=1000;
+float sz=20;//75
 float chue = 45.0;
 boolean changeColor = false;
 float colHue = 0;
-float colAlp =5; 
-float alphaDec = 0.1;
+float colAlp =3; 
+float alphaDec = 0.01;
 PVector cnt;
 float vcoef =2.5;  
 float dcoef = 0.02;
-float fric = .995;
+float fric = .998;
 float upLimit = 250.0;
 boolean doEvent = false;
 float eventRate = 0.01/60.0;
